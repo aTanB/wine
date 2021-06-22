@@ -1,31 +1,30 @@
-name: model-wine-quality
+name: wine-quality-model
 on: [push]
 jobs:
   run:
     runs-on: [ubuntu-latest]
-    # optionally use a convenient Ubuntu LTS + CUDA + DVC + CML image
-    # container: docker://dvcorg/cml:0-dvc2-base1-gpu
+    container: docker://ubuntu:latest
     steps:
+      - uses: actions/setup-node@v1
+        with:
+            node-version: '12'
       - uses: actions/checkout@v2
-      - name: cml_run 
+      - name: cml_run
         env:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-        
-            # Your ML workflow goes here
-            
-            apt update && apt install -y python3 python3-pip python3-setuptools
-            npm i -g @dvcorg/cml
-            # npm install -g vega-cli vega-lite
-            pip3 install -r requirements.txt
-            python3 train.py
+          # Your ML workflow goes here
+          apt update && apt install -y python3 python3-pip python3-setuptools
+          npm i -g @dvcorg/cml
+          # npm install -g vega-cli vega-lite
+          pip3 install -r requirements.txt
+          python3 train.py
           
-            echo "## MODEL METRICS" > report.md
-            cat metrics.txt >> report.md
+          echo "## Model metrics" > report.md
+          cat metrics.txt >> report.md
           
-            echo "## Data viz" >> report.md
-            cml-publish feature_importance.png --md >> report.md 
-            cml-publish residuls.png --md >> report.md
+          echo "## Data viz" >> report.md
+          cml-publish feature_importance.png --md >> report.md
+          cml-publish residuals.png --md >> report.md
           
-            cml-send-comment report.md
-   
+          cml-send-comment report.md
