@@ -14,9 +14,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Your ML workflow goes here
-          apt update && apt install -y python3 python3-pip python3-setuptools
-          npm i -g @dvcorg/cml
-          npm install -g vega-cli vega-lite
+          #apt update && apt install -y python3 python3-pip python3-setuptools
+          #npm i -g @dvcorg/cml
+          #npm install -g vega-cli vega-lite
           pip3 install -r requirements.txt
           python3 train.py
           
